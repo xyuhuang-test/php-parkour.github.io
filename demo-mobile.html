@@ -8,6 +8,14 @@
 
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
+  <script>
+    (function () {
+      const isMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 900;
+      if (!isMobile && !window.location.pathname.endsWith("/demo.html")) {
+        window.location.replace("./demo.html");
+      }
+    })();
+  </script>
   <style>
     html, body {
       height: 100%;
