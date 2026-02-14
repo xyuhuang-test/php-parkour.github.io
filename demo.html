@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Interactive MuJoCo Demo">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Demo | Perceptive Humanoid Parkour</title>
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    body {
+      overflow: hidden;
+      background: #0f172a;
+    }
+    .demo-glass {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <section class="section interactive-demo-section" style="background-color: #0f172a; min-height: 100vh; padding: 0;">
+    <div class="demo-display-container" style="height: 100vh; width: 100vw; position: relative; overflow: hidden;">
+      <iframe
+        src="./mujoco_wasm/dist/index.html"
+        loading="lazy"
+        style="width: 100%; height: 100%; border: none;"
+        title="PHP MuJoCo Web Demo">
+        Your browser does not support iframes.
+      </iframe>
+
+      <div class="demo-glass" style="position: absolute; left: 50%; top: 14px; transform: translateX(-50%); padding: 0.8rem 1.2rem; border-radius: 999px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22); max-width: 980px;">
+        <div style="font-size: 1.5rem; line-height: 1.5; color: #0f172a; text-align: center; white-space: nowrap;">
+          💡 Hold ONLY <kbd style="background: #fff3cd; padding: 0.15rem 0.45rem; border-radius: 4px; font-weight: bold;">W</kbd>  when approaching and over obstacles · Tap <kbd style="background: #fff3cd; padding: 0.15rem 0.45rem; border-radius: 4px;">A</kbd>/<kbd style="background: #fff3cd; padding: 0.15rem 0.45rem; border-radius: 4px;">D</kbd> to align        </div>
+      </div>
+
+      <div class="demo-glass" style="position: absolute; right: 16px; bottom: 16px; padding: 1rem 1.25rem; border-radius: 14px; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2); max-width: 380px;">
+        <h3 class="title is-5" style="margin-bottom: 0.6rem; color: #333;">🎮 How to Play</h3>
+        <div style="font-size: 1.2rem; line-height: 1.5; color: #444;">
+          <div style="font-weight: 700; margin-bottom: 0.5rem;">Controls</div>
+          <div style="display: grid; grid-template-columns: auto 1fr; gap: 0.45rem 0.8rem; align-items: center;">
+            <kbd style="background: #f0f0f0; padding: 0.2rem 0.55rem; border-radius: 6px; font-weight: bold; justify-self: start;">W</kbd>
+            <span>Move forward</span>
+            <kbd style="background: #f0f0f0; padding: 0.2rem 0.55rem; border-radius: 6px; font-weight: bold; justify-self: start;">A</kbd>
+            <span>Turn left</span>
+            <kbd style="background: #f0f0f0; padding: 0.2rem 0.55rem; border-radius: 6px; font-weight: bold; justify-self: start;">D</kbd>
+            <span>Turn right</span>
+            <kbd style="background: #f0f0f0; padding: 0.2rem 0.55rem; border-radius: 6px; font-weight: bold; justify-self: start;">Climb</kbd>
+            <span>Automatic when pressing <kbd style="background: #f0f0f0; padding: 0.2rem 0.55rem; border-radius: 6px; font-weight: bold; justify-self: start;">W</kbd></span>
+            <kbd style="background: #f0f0f0; padding: 0.2rem 0.55rem; border-radius: 6px; font-weight: bold; justify-self: start;">Y</kbd>
+            <span>Toggle speed mode</span>
+            <kbd style="background: #f0f0f0; padding: 0.2rem 0.55rem; border-radius: 6px; font-weight: bold; justify-self: start;">SPACE</kbd>
+            <span>Pause</span>
+          </div>
+        </div>
+      </div>
+
+      <a class="button is-light is-rounded" href="./index.html" style="position: absolute; left: 16px; top: 16px;">← Back to main page</a>
+    </div>
+  </section>
+</body>
+</html>
