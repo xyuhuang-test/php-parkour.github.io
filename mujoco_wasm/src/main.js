@@ -234,7 +234,7 @@ export class MuJoCoDemo {
       width: this.depthPreviewSize.width,
       height: this.depthPreviewSize.height,
       gap: 8,
-      scale: 4,
+      scale: 1,
     };
     this.depthPreviewPixels = new Uint8Array(this.depthPreviewSize.width * this.depthPreviewSize.height * 4);
     this.depthPreviewTexture = new THREE.DataTexture(
