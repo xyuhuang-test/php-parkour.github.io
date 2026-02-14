@@ -166,11 +166,12 @@ export class MuJoCoDemo {
 
     // Depth render target and material for visualization.
     // Keep render resolution fixed to the camera config.
+    const depthPreviewScale = Number(import.meta.env.VITE_DEPTH_PREVIEW_SCALE ?? 4);
     this.depthInset = {
       width: this.depthCameraConfig.width,
       height: this.depthCameraConfig.height,
       margin: 16,
-      previewScale: 4,
+      previewScale: depthPreviewScale,
     };
     this.depthCameraView.aspect = this.depthCameraConfig.width / this.depthCameraConfig.height;
     this.depthCameraView.updateProjectionMatrix();
@@ -234,7 +235,7 @@ export class MuJoCoDemo {
       width: this.depthPreviewSize.width,
       height: this.depthPreviewSize.height,
       gap: 8,
-      scale: 1,
+      scale: depthPreviewScale,
     };
     this.depthPreviewPixels = new Uint8Array(this.depthPreviewSize.width * this.depthPreviewSize.height * 4);
     this.depthPreviewTexture = new THREE.DataTexture(

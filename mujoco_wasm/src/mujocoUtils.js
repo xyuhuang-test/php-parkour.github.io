@@ -198,7 +198,12 @@ export function setupGUI(parentContext) {
   actionInnerHTML += 'Reset free camera<br>';
   keyInnerHTML += 'Ctrl A<br>';
 
-  parentContext.gui.open();
+  const guiMode = import.meta.env.VITE_GUI_MODE || 'open';
+  if (guiMode === 'hide') {
+    parentContext.gui.hide();
+  } else {
+    parentContext.gui.open();
+  }
 }
 
 
