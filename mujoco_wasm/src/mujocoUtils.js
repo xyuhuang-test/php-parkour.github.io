@@ -33,6 +33,7 @@ export function setupGUI(parentContext) {
 
   // Add scene selection dropdown.
   let reload = reloadFunc.bind(parentContext);
+  parentContext.reloadScene = reload;
   parentContext.gui.add(parentContext.params, 'scene', {
     // "Humanoid": "humanoid.xml", "Cassie": "agility_cassie/scene.xml",
     // "Hammock": "hammock.xml", "Balloons": "balloons.xml", "Hand": "shadow_hand/scene_right.xml",
@@ -198,7 +199,12 @@ export function setupGUI(parentContext) {
   actionInnerHTML += 'Reset free camera<br>';
   keyInnerHTML += 'Ctrl A<br>';
 
-  parentContext.gui.open();
+  const guiMode = import.meta.env.VITE_GUI_MODE || 'open';
+  if (guiMode === 'hide') {
+    parentContext.gui.hide();
+  } else {
+    parentContext.gui.open();
+  }
 }
 
 

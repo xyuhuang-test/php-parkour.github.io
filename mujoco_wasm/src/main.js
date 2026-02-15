@@ -62,18 +62,72 @@ export class MuJoCoDemo {
     this.finishMessageElement.style.display = 'none';
     this.finishMessageElement.style.zIndex = '1200';
     document.body.appendChild(this.finishMessageElement);
+    const guiMode = import.meta.env.VITE_GUI_MODE || 'open';
+    const showMobileButtons = guiMode === 'hide';
+
+    this.speedControlsContainer = document.createElement('div');
+    this.speedControlsContainer.style.position = 'absolute';
+    if (showMobileButtons) {
+      this.speedControlsContainer.style.top = '16px';
+      this.speedControlsContainer.style.right = '16px';
+    } else {
+      this.speedControlsContainer.style.top = '64px';
+      this.speedControlsContainer.style.left = '16px';
+    }
+    this.speedControlsContainer.style.display = 'flex';
+    this.speedControlsContainer.style.alignItems = 'center';
+    this.speedControlsContainer.style.gap = '10px';
+    this.speedControlsContainer.style.zIndex = '1200';
+
     this.speedModeElement = document.createElement('div');
-    this.speedModeElement.style.position = 'absolute';
-    this.speedModeElement.style.top = '16px';
-    this.speedModeElement.style.left = '16px';
     this.speedModeElement.style.padding = '8px 12px';
     this.speedModeElement.style.borderRadius = '8px';
     this.speedModeElement.style.background = 'rgba(0, 0, 0, 0.60)';
     this.speedModeElement.style.color = '#ffffff';
     this.speedModeElement.style.font = 'bold 16px Arial';
     this.speedModeElement.style.letterSpacing = '0.2px';
-    this.speedModeElement.style.zIndex = '1200';
-    document.body.appendChild(this.speedModeElement);
+
+    this.speedControlsContainer.appendChild(this.speedModeElement);
+    if (showMobileButtons) {
+      this.speedToggleButton = document.createElement('button');
+      this.speedToggleButton.type = 'button';
+      this.speedToggleButton.textContent = 'Toggle speed';
+      this.speedToggleButton.style.padding = '8px 12px';
+      this.speedToggleButton.style.borderRadius = '8px';
+      this.speedToggleButton.style.border = 'none';
+      this.speedToggleButton.style.background = 'rgba(0, 0, 0, 0.60)';
+      this.speedToggleButton.style.color = '#ffffff';
+      this.speedToggleButton.style.font = 'bold 14px Arial';
+      this.speedToggleButton.style.letterSpacing = '0.2px';
+      this.speedToggleButton.style.cursor = 'pointer';
+      this.speedToggleButton.addEventListener('click', () => {
+        if (this.policyController) {
+          this.policyController.highSpeedMode = !this.policyController.highSpeedMode;
+          this.updateSpeedModeIndicator();
+        }
+      });
+
+      this.resetButton = document.createElement('button');
+      this.resetButton.type = 'button';
+      this.resetButton.textContent = 'Reset';
+      this.resetButton.style.padding = '8px 12px';
+      this.resetButton.style.borderRadius = '8px';
+      this.resetButton.style.border = 'none';
+      this.resetButton.style.background = 'rgba(0, 0, 0, 0.60)';
+      this.resetButton.style.color = '#ffffff';
+      this.resetButton.style.font = 'bold 14px Arial';
+      this.resetButton.style.letterSpacing = '0.2px';
+      this.resetButton.style.cursor = 'pointer';
+      this.resetButton.addEventListener('click', () => {
+        if (typeof this.reloadScene === 'function') {
+          this.reloadScene();
+        }
+      });
+
+      this.speedControlsContainer.appendChild(this.speedToggleButton);
+      this.speedControlsContainer.appendChild(this.resetButton);
+    }
+    document.body.appendChild(this.speedControlsContainer);
     this.updateSpeedModeIndicator();
 
     this.scene = new THREE.Scene();
@@ -166,11 +220,12 @@ export class MuJoCoDemo {
 
     // Depth render target and material for visualization.
     // Keep render resolution fixed to the camera config.
+    const depthPreviewScale = Number(import.meta.env.VITE_DEPTH_PREVIEW_SCALE ?? 4);
     this.depthInset = {
       width: this.depthCameraConfig.width,
       height: this.depthCameraConfig.height,
       margin: 16,
-      previewScale: 4,
+      previewScale: depthPreviewScale,
     };
     this.depthCameraView.aspect = this.depthCameraConfig.width / this.depthCameraConfig.height;
     this.depthCameraView.updateProjectionMatrix();
@@ -234,7 +289,7 @@ export class MuJoCoDemo {
       width: this.depthPreviewSize.width,
       height: this.depthPreviewSize.height,
       gap: 8,
-      scale: 4,
+      scale: depthPreviewScale,
     };
     this.depthPreviewPixels = new Uint8Array(this.depthPreviewSize.width * this.depthPreviewSize.height * 4);
     this.depthPreviewTexture = new THREE.DataTexture(
@@ -402,7 +457,7 @@ export class MuJoCoDemo {
       return;
     }
     const isHighSpeed = this.policyController ? this.policyController.highSpeedMode !== false : true;
-    this.speedModeElement.textContent = `Speed: ${isHighSpeed ? 'HIGH' : 'LOW'} (Y to toggle)`;
+    this.speedModeElement.textContent = `Speed: ${isHighSpeed ? 'HIGH' : 'LOW'}`;
   }
 
   checkCourseCompletion() {
