@@ -42,26 +42,8 @@ export class MuJoCoDemo {
       -0.00628881808, 0.161155701, 0.236345276, 0.980316162, 0.15456377, 0.0774896815, 0.0205286704, -0.128641531,
       -0.0847690701, -0.255017966, 1.09530210, -0.134532213, 0.0875737667, 0.0601755157
     ];
-    this.finishLineX = 63.0;
-    this.finishMessageShown = false;
-
     this.container = document.createElement( 'div' );
     document.body.appendChild( this.container );
-    this.finishMessageElement = document.createElement('div');
-    this.finishMessageElement.textContent = 'Congrats! You reached the end!';
-    this.finishMessageElement.style.position = 'absolute';
-    this.finishMessageElement.style.top = '22px';
-    this.finishMessageElement.style.left = '50%';
-    this.finishMessageElement.style.transform = 'translateX(-50%)';
-    this.finishMessageElement.style.padding = '10px 16px';
-    this.finishMessageElement.style.borderRadius = '10px';
-    this.finishMessageElement.style.background = 'rgba(0, 0, 0, 0.65)';
-    this.finishMessageElement.style.color = '#ffe16a';
-    this.finishMessageElement.style.font = 'bold 24px Arial';
-    this.finishMessageElement.style.letterSpacing = '0.4px';
-    this.finishMessageElement.style.display = 'none';
-    this.finishMessageElement.style.zIndex = '1200';
-    document.body.appendChild(this.finishMessageElement);
     const guiMode = import.meta.env.VITE_GUI_MODE || 'open';
     const showMobileButtons = guiMode === 'hide';
 
@@ -445,30 +427,12 @@ export class MuJoCoDemo {
     }
   }
 
-  setFinishMessageVisible(visible) {
-    if (!this.finishMessageElement) {
-      return;
-    }
-    this.finishMessageElement.style.display = visible ? 'block' : 'none';
-  }
-
   updateSpeedModeIndicator() {
     if (!this.speedModeElement) {
       return;
     }
     const isHighSpeed = this.policyController ? this.policyController.highSpeedMode !== false : true;
     this.speedModeElement.textContent = `Speed: ${isHighSpeed ? 'HIGH' : 'LOW'}`;
-  }
-
-  checkCourseCompletion() {
-    if (this.params.scene !== initialScene || !this.pelvisBody) {
-      return;
-    }
-    if (!this.finishMessageShown && this.pelvisBody.position.x >= this.finishLineX) {
-      this.finishMessageShown = true;
-      this.setFinishMessageVisible(true);
-      console.log('Congrats! Reached end of course.');
-    }
   }
 
   applySceneInitialState({ resetData = false, rebindCameras = false } = {}) {
@@ -503,8 +467,6 @@ export class MuJoCoDemo {
       this.policyController.reset();
     }
     this.policyStepCounter = 0;
-    this.finishMessageShown = false;
-    this.setFinishMessageVisible(false);
   }
 
   async initPolicy() {
@@ -662,10 +624,6 @@ export class MuJoCoDemo {
       this.controls.target.copy(this.pelvisBody.position);
       this.controls.update();
     }
-    this.checkCourseCompletion();
-
-
-
     // Update light transforms.
     for (let l = 0; l < this.model.nlight; l++) {
       if (this.lights[l]) {
