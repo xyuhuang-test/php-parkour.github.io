@@ -3,6 +3,10 @@ import { Reflector  } from './utils/Reflector.js';
 import { MuJoCoDemo } from './main.js';
 
 export async function reloadFunc() {
+  // Save the robot's x,y position so it respawns where it fell.
+  const savedX = this.data ? this.data.qpos[0] : 0;
+  const savedY = this.data ? this.data.qpos[1] : 0;
+
   // Delete the old scene and load the new scene
   this.scene.remove(this.scene.getObjectByName("MuJoCo Root"));
   [this.model, this.data, this.bodies, this.lights] =
@@ -12,6 +16,14 @@ export async function reloadFunc() {
   } else {
     this.mujoco.mj_forward(this.model, this.data);
   }
+
+  // Restore x,y position and re-run forward kinematics.
+  if (this.data) {
+    this.data.qpos[0] = savedX;
+    this.data.qpos[1] = savedY;
+    this.mujoco.mj_forward(this.model, this.data);
+  }
+
   if (typeof this.rebuildPolicy === 'function') {
     await this.rebuildPolicy();
   }
