@@ -479,7 +479,7 @@ export class MuJoCoDemo {
 
   async initPolicy() {
     const urlParams = new URLSearchParams(window.location.search);
-    const defaultPolicyPath = './2026-01-17_09-51-30_student-new-loco-old-skill_student.onnx';
+    const defaultPolicyPath = './2026-02-19_07-08-22_student-76-step-rand_student.onnx';
     const modelPath = urlParams.get('policy') || defaultPolicyPath;
     const controller = new PolicyController(this.mujoco, {
       modelPath: modelPath,

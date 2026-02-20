@@ -562,6 +562,9 @@ export class PolicyController {
 
     this.defaultJointPos = ensureLength(defaultJointPosRaw, numActions, 0.0);
     this.kp = ensureLength(stiffnessRaw, numActions, 0.0);
+    for (let i = 23; i < this.kp.length; i++) {
+      this.kp[i] = 4.0;
+    }
     this.kd = ensureLength(dampingRaw, numActions, 0.0);
 
     this.prevActions = new Float32Array(numActions);
@@ -925,6 +928,9 @@ export class PolicyController {
 
       for (let i = 0; i < this.latestTarget.length; i++) {
         this.latestTarget[i] = this.defaultJointPos[i] + this.actionScale[i] * this.latestAction[i];
+      }
+      for (let i = 23; i < this.latestTarget.length; i++) {
+        this.latestTarget[i] = this.defaultJointPos[i];
       }
     } finally {
       this.inFlight = false;
